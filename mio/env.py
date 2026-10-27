@@ -19,32 +19,40 @@ class Environment:
         self.ssds = None
         self.mem_channels = None
 
+        base_dir = os.path.dirname(os.path.abspath(configpath))
+        def resolve_path(p):
+            p = os.path.expandvars(os.path.expanduser(p))
+            if not os.path.isabs(p):
+                p = os.path.abspath(os.path.join(base_dir, p))
+            return p
+
         if 'MLC_PATH' in config_dict:
-            self.mlc_path = config_dict['MLC_PATH']
+            self.mlc_path = resolve_path(config_dict['MLC_PATH'])
 
         if 'PCM_PATH' in config_dict:
-            self.pcm_path = config_dict['PCM_PATH']
+            self.pcm_path = resolve_path(config_dict['PCM_PATH'])
 
         if 'STATS_PATH' in config_dict:
-            self.stats_path = config_dict['STATS_PATH']
+            self.stats_path = resolve_path(config_dict['STATS_PATH'])
+            os.makedirs(self.stats_path, exist_ok=True)
 
         if 'FIO_PATH' in config_dict:
-            self.fio_path = config_dict['FIO_PATH']
+            self.fio_path = resolve_path(config_dict['FIO_PATH'])
 
         if 'STREAM_PATH' in config_dict:
-            self.stream_path = config_dict['STREAM_PATH']
+            self.stream_path = resolve_path(config_dict['STREAM_PATH'])
         
         if 'MMAPBENCH_PATH' in config_dict:
-            self.mmapbench_path = config_dict['MMAPBENCH_PATH']
+            self.mmapbench_path = resolve_path(config_dict['MMAPBENCH_PATH'])
 
         if 'REDIS_PATH' in config_dict:
-            self.redis_path = config_dict['REDIS_PATH']
+            self.redis_path = resolve_path(config_dict['REDIS_PATH'])
 
         if 'MEMTIER_PATH' in config_dict:
-            self.memtier_path = config_dict['MEMTIER_PATH']
+            self.memtier_path = resolve_path(config_dict['MEMTIER_PATH'])
 
         if 'GAPBS_PATH' in config_dict:
-            self.gapbs_path = config_dict['GAPBS_PATH']
+            self.gapbs_path = resolve_path(config_dict['GAPBS_PATH'])
 
         # Get cpu topology
         # TODO: Make this generic
